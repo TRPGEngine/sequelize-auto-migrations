@@ -6,8 +6,6 @@ const fs = require('fs');
 const Async = require('async');
 const Sequelize = require('sequelize');
 const migrate = require('../lib/migrate');
-
-const migrate           = require("../lib/migrate");
 const pathConfig = require('../lib/pathconfig');
 
 const optionDefinitions = [
@@ -23,6 +21,8 @@ const optionDefinitions = [
   {
     name: 'list', alias: 'l', type: Boolean, description: 'Show migration file list (without execution)', defaultValue: false,
   },
+  { name: 'migrations-path', type: String, description: 'The path to the migrations folder' },
+  { name: 'models-path', type: String, description: 'The path to the models folder' },
   { name: 'help', type: Boolean, description: 'Show this message' },
 ];
 
@@ -75,7 +75,7 @@ queryInterface.createTable('SequelizeMeta', {
 }).then(() => {
   const alreadyExecuted = [];
   try {
-    sequelize.query('SELECT * FROM "SequelizeMeta"', { type: sequelize.QueryTypes.SELECT })
+    sequelize.query('SELECT * FROM `SequelizeMeta`', { type: sequelize.QueryTypes.SELECT })
       .then((scripts) => {
         (scripts || []).forEach((script) => {
           alreadyExecuted[script.name] = true;
